@@ -1,0 +1,24 @@
+name: Run V2Ray Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-v2ray:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y curl
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+
+      - name: Run V2Ray server
+        run: |
+          docker pull v2fly/v2ray-core
+          docker run -d --name v2ray -p 8080:8080 v2fly/v2ray-core
